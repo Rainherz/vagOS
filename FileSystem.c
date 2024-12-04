@@ -62,3 +62,13 @@ void show_file_content(const char *filename) {
     printf("Archivo no encontrado.\n");
 }
 
+void edit_file(const char *filename, const char *new_content) {
+    for (int i = 0; i < file_count; i++) {
+        if (strcmp(filesystem[i].name, filename) == 0) {
+            strcpy(filesystem[i].content, new_content);
+            printf("Archivo '%s' editado con éxito.\n", filename);
+            return;
+        }
+    }
+    printf("Archivo no encontrado.\n");
+}

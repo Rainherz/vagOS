@@ -6,18 +6,13 @@
 #include <stdlib.h>
 #include <time.h>
 
-void show_time() {
-    time_t now = time(NULL);
-    struct tm *local_time = localtime(&now);
-    printf("Hora actual: %02d:%02d:%02d\n", local_time->tm_hour, local_time->tm_min, local_time->tm_sec);
-}
-
 void show_help() {
     printf("Comandos disponibles:\n");
     printf("- ls: Lista archivos\n");
     printf("- create [archivo] [contenido]: Crea un archivo\n");
     printf("- delete [archivo]: Elimina un archivo\n");
     printf("- cat [archivo]: Muestra el contenido de un archivo\n");
+    printf("- edit [archivo] [nuevo contenido]: Edita el contenido de un archivo\n");
     printf("- run [nombre] [tiempo]: Agrega un proceso\n");
     printf("- pause [pid]: Pausa/Reanuda un proceso por su PID\n");
     printf("- remove [pid]: Elimina un proceso por su PID\n");
@@ -27,6 +22,12 @@ void show_help() {
     printf("- exit: Salir\n");
 }
 
+void show_time() {
+    time_t now = time(NULL);
+    struct tm *local_time = localtime(&now);
+    printf("Hora actual: %02d:%02d:%02d\n", local_time->tm_hour, local_time->tm_min, local_time->tm_sec);
+}
+
 int main() {
     char command[100];
 
@@ -34,6 +35,7 @@ int main() {
     init_process_manager();
 
     printf("Bienvenido a VagOS CLI\n");
+    printf("Escribe 'help' para ver los comandos disponibles.\n");
 
     while (1) {
         printf("> ");
@@ -51,6 +53,15 @@ int main() {
             }
         } else if (strncmp(command, "delete ", 7) == 0) {
             delete_file(command + 7);
+        } else if (strncmp(command, "cat ", 4) == 0) {
+            show_file_content(command + 4);
+        } else if (strncmp(command, "edit ", 5) == 0) {
+            char filename[20], new_content[100];
+            if (sscanf(command + 5, "%s %[^\n]", filename, new_content) == 2) {
+                edit_file(filename, new_content);
+            } else {
+                printf("Uso: edit [archivo] [nuevo contenido]\n");
+            }
         } else if (strncmp(command, "run ", 4) == 0) {
             char name[20];
             int runtime;
