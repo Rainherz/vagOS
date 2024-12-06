@@ -1,0 +1,32 @@
+/os-project
+  /src
+    kernel.c          # Código principal del kernel
+    file_system.c     # Implementación de sistemas de archivos (funciones de ls, mkdir, etc.)
+    scheduler.c       # Planificador de procesos
+    process.c         # Gestión de procesos (ps, kill, etc.)
+    concurrency.c     # Concurrencia y sincronización
+  /include
+    kernel.h          # Cabeceras del kernel
+    file_system.h     # Cabeceras de funciones de sistemas de archivos
+    scheduler.h       # Cabeceras para el planificador de procesos
+    process.h         # Cabeceras para gestión de procesos
+    concurrency.h     # Cabeceras para concurrencia
+  /bin
+    makefile          # Archivo Makefile
+  /iso
+    bootloader.asm    # Bootloader
+    kernel.bin        # Kernel compilado
+
+
+    bootloader.asm:
+    [bits 32]
+[global _start]
+
+extern kernel_main   ; Declarar kernel_main como una función externa
+
+_start:
+    ; Cargar el kernel (ya debe estar cargado en memoria por el BIOS o cargador de arranque)
+    mov esp, 0x9000          ; Establecer el puntero de pila
+    call kernel_main         ; Llamar al kernel (su función principal)
+
+; Fin del bootloader

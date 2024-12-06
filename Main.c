@@ -5,7 +5,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-
+#include "FileSystem.h"
+#include "ProcessManager.h"
+#include "Scheduler.h"
 void show_help() {
     printf("Comandos disponibles:\n");
     printf("- ls: Lista archivos\n");
