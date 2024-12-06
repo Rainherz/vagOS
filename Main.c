@@ -2,6 +2,7 @@
 #include "core/ProcessManager.h"
 #include "core/Scheduler.h"
 #include "core/MainSystem.h"
+#include "core/ConsoleInterface.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -15,12 +16,11 @@ int main() {
     init_filesystem();
     init_process_manager();
 
-    printf("Bienvenido a VagOS CLI\n");
-    printf("Escribe 'help' para ver los comandos disponibles.\n");
+    print_hello();
 
     while (1) {
-        printf("> ");
-        fgets(command, sizeof(command), stdin);
+        input_command(command);
+        // fgets(command, sizeof(command), stdin);
         command[strcspn(command, "\n")] = '\0';
 
         if (strcmp(command, "help") == 0) {
